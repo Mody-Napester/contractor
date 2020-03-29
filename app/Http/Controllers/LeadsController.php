@@ -67,7 +67,7 @@ class LeadsController extends Controller
                 $data['resources'] = $data['resources']->where('status', $status);
             }else{
                 if(User::hasAuthority('mainuser.type')){
-                    $data['resources'] = $data['resources']->where('status', 2)->orWhere('status', 3); // Done & Duplicates
+                    $data['resources'] = $data['resources']->where('status', 2); // Done
                 }
                 elseif (User::hasAuthority('reviewer.type')){
                     $data['resources'] = $data['resources']->where('status', 1)->orWhere('status', 3); // New & Duplicates
@@ -85,7 +85,8 @@ class LeadsController extends Controller
             if($request->has('email') && $request->email != ''){$data['resources'] = $data['resources']->where('email', $request->email );}
             if($request->has('address') && $request->address != ''){$data['resources'] = $data['resources']->where('address', $request->address );}
             if($request->has('tel') && $request->tel != ''){$data['resources'] = $data['resources']->where('tel', $request->tel );}
-            if($request->has('user') && $request->user != ''){$data['resources'] = $data['resources']->where('user_id', $request->user );}
+            if($request->has('sales1') && $request->sales1 != ''){$data['resources'] = $data['resources']->where('created_by', $request->sales1 );}
+            if($request->has('sales2') && $request->sales2 != ''){$data['resources'] = $data['resources']->where('user_id', $request->sales2 );}
 
             $data['resources'] = $data['resources']->where('status', 2); // Done
         }
@@ -121,15 +122,15 @@ class LeadsController extends Controller
 
         // Check if duplicated
         $dup = Lead::where(function($query) use ($request){
-            $query->where('mobile_1', $request->mobile_1);
-            $query->orWhere('mobile_1', $request->mobile_2);
-            $query->orWhere('mobile_2', $request->mobile_1);
-            $query->orWhere('mobile_2', $request->mobile_2);
+            if($request->mobile_1 != ''){
+                $query->where('mobile_1', $request->mobile_1);
+                $query->orWhere('mobile_2', $request->mobile_1);
+            }
+            if($request->mobile_2 != ''){
+                $query->orWhere('mobile_1', $request->mobile_2);
+                $query->orWhere('mobile_2', $request->mobile_2);
+            }
             $query->orWhere('email', $request->email);
-        })->where(function ($query){
-            $query->where('mobile_1', '!=','');
-            $query->Where('mobile_2', '!=','');
-            $query->Where('email', '!=','');
         })->first();
 
         // Do Code
@@ -148,7 +149,7 @@ class LeadsController extends Controller
             'notes' => $request->notes,
             'status' => ($dup)? 3 : 1,
             'duplicated_with' => ($dup)? $dup->id : '',
-            'user_id' => ($request->has('user'))? $request->user : auth()->user()->id,
+            'user_id' => ($request->has('user'))? $request->user : null,
             'created_by' => auth()->user()->id,
         ]);
 

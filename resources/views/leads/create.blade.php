@@ -195,7 +195,8 @@
         <div class="col-md-4">
             <div class="form-group">
                 <label class="" for="user">Sales 2</label>
-                <select id="user" class="select2 form-control{{ $errors->has('user') ? ' is-invalid' : '' }}" name="user" required>
+                <select id="user" class="select2 form-control{{ $errors->has('user') ? ' is-invalid' : '' }}" name="user">
+                    <option disabled selected>Choose</option>
                     @foreach($sales as $user)
                         @if($user->id != 1)
                             <option value="{{ $user->id }}">{{ $user->name }}</option>

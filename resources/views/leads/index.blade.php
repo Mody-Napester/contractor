@@ -229,7 +229,7 @@
                                     <td>{{ $resource->createdBy->name }}</td>
                                     @if(\App\User::hasAuthority('show_sales_2.leads'))
                                     <td>
-                                        {{ $resource->user->name }}
+                                        {{ ($resource->user)? $resource->user->name : '-' }}
                                     </td>
                                     @endif
                                     <td>{{ ($resource->transfer)? $resource->transfer->name : '-'}}</td>

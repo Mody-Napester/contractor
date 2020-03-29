@@ -82,8 +82,22 @@
         </div>
         <div class="col-md-4">
             <div class="form-group">
-                <label class="" for="user">Sales 2</label>
-                <select id="user" class="select2 form-control" name="user">
+                <label class="" for="sales1">Sales 1</label>
+                <select id="sales1" class="select2 form-control" name="sales1">
+                    <option disabled selected>Choose</option>
+                    @foreach($sales as $user)
+                        @if($user->id != 1)
+                            <option value="{{ $user->id }}">{{ $user->name }}</option>
+                        @endif
+                    @endforeach
+                </select>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="" for="sales2">Sales 2</label>
+                <select id="sales2" class="select2 form-control" name="sales2">
+                    <option disabled selected>Choose</option>
                     @foreach($sales as $user)
                         @if($user->id != 1)
                             <option value="{{ $user->id }}">{{ $user->name }}</option>

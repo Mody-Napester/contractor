@@ -26,15 +26,15 @@ class LeadsImport implements ToModel
     {
         // Check if duplicated
         $dup = Lead::where(function($query) use ($row){
-            $query->where('mobile_1', $row[6]);
-            $query->orWhere('mobile_1', $row[7]);
-            $query->orWhere('mobile_2', $row[6]);
-            $query->orWhere('mobile_2', $row[7]);
+            if($row[6] != ''){
+                $query->where('mobile_1', $row[6]);
+                $query->orWhere('mobile_2', $row[6]);
+            }
+            if($row[7] != ''){
+                $query->orWhere('mobile_1', $row[7]);
+                $query->orWhere('mobile_2', $row[7]);
+            }
             $query->orWhere('email', $row[8]);
-        })->where(function ($query){
-            $query->where('mobile_1', '!=','');
-            $query->where('mobile_2', '!=','');
-            $query->where('email', '!=','');
         })->first();
 
         return new Lead([
@@ -52,7 +52,7 @@ class LeadsImport implements ToModel
             'notes' => $row[11],
             'status' => ($dup)? 3 : 1,
             'duplicated_with' => ($dup)? $dup->id : '',
-            'user_id' => auth()->user()->id,
+            'user_id' => ($row[12] != '')? $row[11] : null,
             'created_by' => auth()->user()->id,
         ]);
     }
