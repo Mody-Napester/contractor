@@ -13,7 +13,7 @@ class Lead extends Model
      */
     protected $fillable = [
         'company_name', 'owner', 'sub_type', 'contact_engineer',
-        'title', 'class', 'mobile_1', 'mobile_2', 'email','address', 'status',
+        'title', 'class', 'mobile_1', 'mobile_2', 'email','address', 'status', 'duplicated_with',
         'tel', 'notes', 'user_id', 'created_by', 'updated_by'];
 
     /**
