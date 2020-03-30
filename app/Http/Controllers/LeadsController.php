@@ -148,7 +148,7 @@ class LeadsController extends Controller
             'tel' => $request->tel,
             'notes' => $request->notes,
             'status' => ($dup)? 3 : 1,
-            'duplicated_with' => ($dup)? $dup->id : '',
+            'duplicated_with' => ($dup)? $dup->id : null,
             'user_id' => ($request->has('user'))? $request->user : null,
             'created_by' => auth()->user()->id,
         ]);

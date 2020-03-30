@@ -51,7 +51,7 @@ class LeadsImport implements ToModel
             'tel' => $row[10],
             'notes' => $row[11],
             'status' => ($dup)? 3 : 1,
-            'duplicated_with' => ($dup)? $dup->id : '',
+            'duplicated_with' => ($dup)? $dup->id : null,
             'user_id' => ($row[12] != '')? $row[11] : null,
             'created_by' => auth()->user()->id,
         ]);
