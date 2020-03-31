@@ -34,7 +34,7 @@
                     @endif
                     @if(\App\User::hasAuthority('index.leads'))
                         <li class="has_sub">
-                            <a href="{{ route('leads.index') }}" class="waves-effect"><i class="ti-user"></i> <span> Leads </span></a>
+                            <a href="{{ route('leads.index') }}" class="waves-effect"><i class="ti-user"></i> <span> Contacts </span></a>
                         </li>
                     @endif
                 @endif

@@ -88,6 +88,8 @@ class LeadsController extends Controller
             if($request->has('sales1') && $request->sales1 != ''){$data['resources'] = $data['resources']->where('created_by', $request->sales1 );}
             if($request->has('sales2') && $request->sales2 != ''){$data['resources'] = $data['resources']->where('user_id', $request->sales2 );}
 
+            if($request->has('date_from') && $request->date_from != ''){$data['resources'] = $data['resources']->whereBetween('created_at', [$request->date_from, $request->date_to]);}
+
             $data['resources'] = $data['resources']->where('status', 2); // Done
         }
 
@@ -111,7 +113,7 @@ class LeadsController extends Controller
 
         // Check validation
         $validator = Validator::make($request->all(), [
-            'owner' => 'required|string|max:255',
+            'contact_engineer' => 'required|string|max:255',
             'mobile_1' => 'required|max:20',
             'email' => 'required|string|email|max:255',
         ]);
@@ -135,18 +137,18 @@ class LeadsController extends Controller
 
         // Do Code
         $resource = Lead::store([
-            'company_name' => $request->company_name,
-            'owner' => $request->owner,
-            'sub_type' => $request->sub_type,
-            'contact_engineer' => $request->contact_engineer,
-            'title' => $request->title,
+            'company_name' => ($request->has('company_name'))? $request->company_name : '',
+            'owner' => ($request->has('owner'))? $request->owner : '',
+            'sub_type' => ($request->has('sub_type'))? $request->sub_type : '',
+            'contact_engineer' => ($request->has('contact_engineer'))? $request->contact_engineer : '',
+            'title' => ($request->has('title'))? $request->title : '',
             'class' => ($request->has('class'))? $request->class : '',
             'mobile_1' => $request->mobile_1,
-            'mobile_2' => $request->mobile_2,
+            'mobile_2' => ($request->has('mobile_2'))? $request->mobile_2 : '',
             'email' => $request->email,
-            'address' => $request->address,
-            'tel' => $request->tel,
-            'notes' => $request->notes,
+            'address' => ($request->has('address'))? $request->address : '',
+            'tel' => ($request->has('tel'))? $request->tel : '',
+            'notes' => ($request->has('notes'))? $request->notes : '',
             'status' => ($dup)? 3 : 1,
             'duplicated_with' => ($dup)? $dup->id : null,
             'user_id' => ($request->has('user'))? $request->user : null,
@@ -227,7 +229,7 @@ class LeadsController extends Controller
 
         // Check validation
         $validator = Validator::make($request->all(), [
-            'owner' => 'required|string|max:255',
+            'contact_engineer' => 'required|string|max:255',
             'mobile_1' => 'required|max:20',
             'email' => 'required|string|email|max:255',
         ]);
@@ -238,18 +240,18 @@ class LeadsController extends Controller
 
         // Do Code
         $updatedResource = Lead::edit([
-            'company_name' => $request->company_name,
-            'owner' => $request->owner,
-            'sub_type' => $request->sub_type,
-            'contact_engineer' => $request->contact_engineer,
-            'title' => $request->title,
+            'company_name' => ($request->has('company_name'))? $request->company_name : '',
+            'owner' => ($request->has('owner'))? $request->owner : '',
+            'sub_type' => ($request->has('sub_type'))? $request->sub_type : '',
+            'contact_engineer' => ($request->has('contact_engineer'))? $request->contact_engineer : '',
+            'title' => ($request->has('title'))? $request->title : '',
             'class' => ($request->has('class'))? $request->class : '',
             'mobile_1' => $request->mobile_1,
-            'mobile_2' => $request->mobile_2,
+            'mobile_2' => ($request->has('mobile_2'))? $request->mobile_2 : '',
             'email' => $request->email,
-            'address' => $request->address,
-            'tel' => $request->tel,
-            'notes' => $request->notes,
+            'address' => ($request->has('address'))? $request->address : '',
+            'tel' => ($request->has('tel'))? $request->tel : '',
+            'notes' => ($request->has('notes'))? $request->notes : '',
             'user_id' => ($request->has('user'))? $request->user : auth()->user()->id,
             'status' => ($request->has('status'))? $request->status : $resource->status,
             'updated_by' => auth()->user()->id

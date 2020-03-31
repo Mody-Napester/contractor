@@ -4,10 +4,11 @@ namespace App\Imports;
 
 use App\Lead;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithStartRow;
 
-class LeadsImport implements ToModel
+class LeadsImport implements ToModel, WithStartRow
 {
-    use Maatwebsite\Excel\Concerns\WithStartRow;
+
 
     /**
      * @return int
@@ -52,7 +53,7 @@ class LeadsImport implements ToModel
             'notes' => $row[11],
             'status' => ($dup)? 3 : 1,
             'duplicated_with' => ($dup)? $dup->id : null,
-            'user_id' => ($row[12] != '')? $row[11] : null,
+            'user_id' => ($row[12] != '')? $row[12] : null,
             'created_by' => auth()->user()->id,
         ]);
     }

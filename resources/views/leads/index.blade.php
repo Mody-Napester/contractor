@@ -1,34 +1,33 @@
 @extends('_layouts.dashboard')
 
-@section('title') Leads @endsection
+@section('title') Contacts @endsection
 
 @section('content')
 
     <!-- Page-Title -->
     <div class="row">
         <div class="col-sm-12">
+            {{--@if(\App\User::hasAuthority('search.leads'))--}}
+            {{--<div class="btn-group pull-right m-t-15">--}}
+                {{--<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#myTabContent" aria-expanded="false" aria-controls="myTabContent">--}}
+                    {{--Open Create or filter <i class="fa fa-fw fa-arrow-down"></i>--}}
+                {{--</button>--}}
+            {{--</div>--}}
+            {{--@endif--}}
 
-            <h4 class="page-title">Leads</h4>
+            <h4 class="page-title">Contacts</h4>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="#">{{ config('app.name') }}</a></li>
-                <li class="breadcrumb-item"><a href="#">Leads</a></li>
+                <li class="breadcrumb-item"><a href="#">Contacts</a></li>
                 <li class="breadcrumb-item active">Index</li>
             </ol>
-
         </div>
     </div>
 
-    @if(\App\User::hasAuthority('create.leads') || \App\User::hasAuthority('search.leads'))
+    @if(\App\User::hasAuthority('create.leads'))
     <div class="row">
         <div class="col-lg-12">
             <ul class="nav nav-tabs" id="myTab" role="tablist">
-                @if(\App\User::hasAuthority('search.leads'))
-                <li class="nav-item active">
-                    <a class="nav-link " id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
-                       aria-selected="true">Filter</a>
-                </li>
-                @endif
-
                 @if(\App\User::hasAuthority('create.leads'))
                 <li class="nav-item active">
                     <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile"
@@ -37,12 +36,6 @@
                 @endif
             </ul>
             <div class="tab-content" id="myTabContent">
-                @if(\App\User::hasAuthority('search.leads'))
-                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                    @include('leads.search')
-                </div>
-                @endif
-
                 @if(\App\User::hasAuthority('create.leads'))
                 <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                     @include('leads.create')
@@ -85,15 +78,15 @@
         <div class="row mb-4">
             <div class="col-md-8">
                 @if(\App\User::hasAuthority('get_new.leads'))
-                <a href="{{ route('leads.index', [1]) }}" class="btn btn-primary waves-effect waves-light">Get New Leads</a>
+                <a href="{{ route('leads.index', [1]) }}" class="btn btn-primary waves-effect waves-light">Get New Contacts</a>
                 @endif
 
                 @if(\App\User::hasAuthority('get_done.leads'))
-                <a href="{{ route('leads.index', [2]) }}" class="btn btn-primary waves-effect waves-light">Get Done Leads</a>
+                <a href="{{ route('leads.index', [2]) }}" class="btn btn-primary waves-effect waves-light">Get Done Contacts</a>
                 @endif
 
                 @if(\App\User::hasAuthority('get_duplicate.leads'))
-                <a href="{{ route('leads.index', [3]) }}" class="btn btn-primary waves-effect waves-light">Get Duplicate Leads</a>
+                <a href="{{ route('leads.index', [3]) }}" class="btn btn-primary waves-effect waves-light">Get Duplicate Contacts</a>
                 @endif
             </div>
             <div class="col-md-4 text-right">
@@ -110,7 +103,7 @@
                     <div class="card-box ">
                         <h4 class="m-t-0 header-title">
                             <div class="row">
-                                <div class="col-md-6">All Leads</div>
+                                <div class="col-md-6">All Contacts</div>
                                 <div class="col-md-6 text-right text-danger"><b>Count : ({{ $resources->count() }})</b></div>
                             </div>
                         </h4>
@@ -167,7 +160,8 @@
                         <table id="datatable-history-buttons" class="table table-striped table-bordered table-sm table-responsive" cellspacing="0" width="100%">
                             <thead>
                             <tr>
-                                <th>S</th>
+                                <th>Edit</th>
+                                <th><input type="checkbox" id="checkAllLeads"></th>
                                 <th>Code</th>
                                 <th>Status</th>
                                 <th>Duplicated with</th>
@@ -193,13 +187,21 @@
                                 <th>Updated by</th>
                                 <th>Created at</th>
                                 <th>Updated at</th>
-                                <th>Control</th>
+                                <th>Rmv</th>
                             </tr>
                             </thead>
 
                             <tbody>
                             @foreach($resources as $resource)
                                 <tr>
+                                    <td>
+                                        @if(\App\User::hasAuthority('edit.leads'))
+                                            <a href="{{ route('leads.edit', [$resource->uuid]) }}"
+                                               class="update-modal btn btn-sm btn-success">
+                                                <i class="fa fa-edit"></i>
+                                            </a>
+                                        @endif
+                                    </td>
                                     <td>
                                         @if(\App\User::hasAuthority('mass_edit.leads'))
                                             <input type="checkbox" name="leads[]" id="leads" value="{{ $resource->id }}">
@@ -237,13 +239,6 @@
                                     <td>{{ $resource->created_at }}</td>
                                     <td>{{ $resource->updated_at }}</td>
                                     <td>
-                                        @if(\App\User::hasAuthority('edit.leads'))
-                                            <a href="{{ route('leads.edit', [$resource->uuid]) }}"
-                                               class="update-modal btn btn-sm btn-success">
-                                                <i class="fa fa-edit"></i>
-                                            </a>
-                                        @endif
-
                                         @if(\App\User::hasAuthority('delete.leads'))
                                             <a href="{{ route('leads.destroy', [$resource->uuid]) }}"
                                                class="confirm-delete btn btn-sm btn-danger">
@@ -265,6 +260,32 @@
             <!-- end row -->
         </form>
     @endif
+
+
+    @if(\App\User::hasAuthority('search.leads'))
+        <div class="row">
+            <div class="col-lg-12">
+                <ul class="nav nav-tabs" id="myTab2" role="tablist">
+                    @if(\App\User::hasAuthority('search.leads'))
+                        <li class="nav-item active">
+                            <a class="nav-link " id="home-tab2" data-toggle="tab" href="#home2" role="tab" aria-controls="home2"
+                               aria-selected="true">Filter</a>
+                        </li>
+                    @endif
+                </ul>
+                <div class="tab-content" id="myTabContent2">
+                    @if(\App\User::hasAuthority('search.leads'))
+                        <div class="tab-pane fade show active" id="home2" role="tabpanel" aria-labelledby="home-tab2">
+                            @include('leads.search')
+                        </div>
+                    @endif
+                </div>
+            </div>
+            <!-- end card-box -->
+        </div>
+        <!-- end row -->
+    @endif
+
 
 @endsection
 
@@ -304,6 +325,13 @@
         });
         tableDTUsers.buttons().container().appendTo('#datatable-history-buttons_wrapper .col-md-6:eq(0)');
         @endif
+
+        $(document).ready(function(){
+            // Select All
+            $("#checkAllLeads").click(function(){
+                $('input:checkbox').not(this).prop('checked', this.checked);
+            });
+        });
 
     </script>
 @endsection

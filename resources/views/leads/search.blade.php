@@ -23,7 +23,7 @@
                 <label class="" for="sub_type">Sub type</label>
                 <select id="sub_type" class="select2 form-control" name="sub_type">
                     <option disabled selected>Choose</option>
-                    <option @if(old('sub_type') == 'MEP') selected @endif value="MEP">MEP</option>
+                    <option @if(old('sub_type') == 'GENERAL') selected @endif value="GENERAL">GENERAL</option>
                     <option @if(old('sub_type') == 'FIRE') selected @endif value="FIRE">FIRE</option>
                     <option @if(old('sub_type') == 'HVAC') selected @endif value="HVAC">HVAC</option>
                     <option @if(old('sub_type') == 'INFRA') selected @endif value="INFRA">INFRA</option>
@@ -104,6 +104,19 @@
                         @endif
                     @endforeach
                 </select>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="" for="date_from">Date from</label>
+                <input id="date_from" type="date" autocomplete="off" class="form-control" name="date_from" value="{{ old('date_from') }}">
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label class="" for="date_to">Date to</label>
+                <input id="date_to" type="date" autocomplete="off" class="form-control" name="date_to" value="{{ old('date_to') }}">
             </div>
         </div>
 

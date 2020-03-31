@@ -17,7 +17,7 @@
         <div class="col-md-4">
             <div class="form-group">
                 <label class="" for="owner">Type</label>
-                <select id="owner" class="select2 form-control{{ $errors->has('owner') ? ' is-invalid' : '' }}" name="owner" required>
+                <select id="owner" class="select2 form-control{{ $errors->has('owner') ? ' is-invalid' : '' }}" name="owner">
                     <option value="Contractor">Contractor</option>
                     <option value="Consultant">Consultant</option>
                     <option value="Owner">Owner</option>
@@ -34,8 +34,8 @@
         <div class="col-md-4">
             <div class="form-group">
                 <label class="" for="sub_type">Sub type</label>
-                <select id="sub_type" class="select2 form-control{{ $errors->has('sub_type') ? ' is-invalid' : '' }}" name="sub_type" required>
-                    <option value="MEP">MEP</option>
+                <select id="sub_type" class="select2 form-control{{ $errors->has('sub_type') ? ' is-invalid' : '' }}" name="sub_type">
+                    <option value="GENERAL">GENERAL</option>
                     <option value="FIRE">FIRE</option>
                     <option value="HVAC">HVAC</option>
                     <option value="INFRA">INFRA</option>
@@ -63,7 +63,7 @@
         <div class="col-md-4">
             <div class="form-group">
                 <label class="" for="title">Title</label>
-                <select id="title" class="select2 form-control{{ $errors->has('title') ? ' is-invalid' : '' }}" name="title" required>
+                <select id="title" class="select2 form-control{{ $errors->has('title') ? ' is-invalid' : '' }}" name="title">
                     <option value="Office Engineer">Office Engineer</option>
                     <option value="Office Manager">Office Manager</option>
                     <option value="Site Engineer">Site Engineer</option>
@@ -82,7 +82,7 @@
         <div class="col-md-4">
             <div class="form-group">
                 <label class="" for="class">Class</label>
-                <select id="class" class="select2 form-control{{ $errors->has('class') ? ' is-invalid' : '' }}" name="class" required>
+                <select id="class" class="select2 form-control{{ $errors->has('class') ? ' is-invalid' : '' }}" name="class">
                     <optgroup label="Class A">
                         <option value="AA">AA</option>
                         <option value="AB">AB</option>
@@ -133,7 +133,7 @@
         <div class="col-md-4">
             <div class="form-group">
                 <label class="" for="mobile_2">Mobile 2</label>
-                <input id="mobile_2" type="tel" pattern="0[0-9]{10}" data-parsley-error-message="Please insert mobile start with 0 and 11 digits." autocomplete="off" class="form-control{{ $errors->has('mobile_2') ? ' is-invalid' : '' }}" name="mobile_2" value="{{ old('mobile_2') }}" required>
+                <input id="mobile_2" type="tel" pattern="0[0-9]{10}" data-parsley-error-message="Please insert mobile start with 0 and 11 digits." autocomplete="off" class="form-control{{ $errors->has('mobile_2') ? ' is-invalid' : '' }}" name="mobile_2" value="{{ old('mobile_2') }}">
 
                 @if ($errors->has('mobile_2'))
                     <span class="invalid-feedback" role="alert">
@@ -157,7 +157,7 @@
         <div class="col-md-4">
             <div class="form-group">
                 <label class="" for="address">Address</label>
-                <input id="address" type="text" autocomplete="off" class="form-control{{ $errors->has('address') ? ' is-invalid' : '' }}" name="address" value="{{ old('address') }}" required>
+                <input id="address" type="text" autocomplete="off" class="form-control{{ $errors->has('address') ? ' is-invalid' : '' }}" name="address" value="{{ old('address') }}">
 
                 @if ($errors->has('address'))
                     <span class="invalid-feedback" role="alert">
@@ -169,7 +169,7 @@
         <div class="col-md-4">
             <div class="form-group">
                 <label class="" for="tel">Tel</label>
-                <input id="tel" type="tel" autocomplete="off" class="form-control{{ $errors->has('tel') ? ' is-invalid' : '' }}" name="tel" value="{{ old('tel') }}" required>
+                <input id="tel" type="tel" autocomplete="off" class="form-control{{ $errors->has('tel') ? ' is-invalid' : '' }}" name="tel" value="{{ old('tel') }}">
 
                 @if ($errors->has('tel'))
                     <span class="invalid-feedback" role="alert">
@@ -181,7 +181,7 @@
         <div class="col-md-4">
             <div class="form-group">
                 <label class="" for="notes">Notes</label>
-                <input id="notes" type="text" autocomplete="off" class="form-control{{ $errors->has('notes') ? ' is-invalid' : '' }}" name="notes" value="{{ old('notes') }}" required>
+                <input id="notes" type="text" autocomplete="off" class="form-control{{ $errors->has('notes') ? ' is-invalid' : '' }}" name="notes" value="{{ old('notes') }}">
 
                 @if ($errors->has('notes'))
                     <span class="invalid-feedback" role="alert">
