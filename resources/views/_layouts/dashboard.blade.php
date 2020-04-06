@@ -6,6 +6,8 @@
         <meta name="description" content="">
         <meta name="author" content="">
 
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+
         <link rel="shortcut icon" href="{{ url('assets/images/favicon.ico') }}">
 
         <title>{{ config('app.name') }} @yield('title')</title>
@@ -34,6 +36,7 @@
         <link href="{{ url('assets/css/custom.css') }}" rel="stylesheet" type="text/css" />
 
         <script src="{{ url('assets/js/modernizr.min.js') }}"></script>
+        <script src="{{ url('assets/ckeditor/ckeditor.js') }}"></script>
 
         @yield('head')
 

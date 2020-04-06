@@ -37,6 +37,19 @@
                             <a href="{{ route('leads.index') }}" class="waves-effect"><i class="ti-user"></i> <span> Contacts </span></a>
                         </li>
                     @endif
+                    @if(\App\User::hasAuthority('index.leads'))
+                        <li class="has_sub">
+                            <a href="javascript:void(0);" class="waves-effect"><i class="ti-notepad"></i> <span> Management Note </span> <span class="menu-arrow"></span></a>
+                            <ul class="list-unstyled">
+                                @if(\App\User::hasAuthority('index.manuals'))
+                                    <li><a href="{{ route('manuals.index') }}">Edit user manuals</a></li>
+                                @endif
+                                @if(\App\User::hasAuthority('show.manuals'))
+                                    <li><a href="{{ route('manuals.show') }}">User manual</a></li>
+                                @endif
+                            </ul>
+                        </li>
+                    @endif
                 @endif
 
             </ul>

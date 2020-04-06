@@ -191,6 +191,7 @@
             <div class="form-group">
                 <label class="" for="user">Sales 2</label>
                 <select id="user" class="select2 form-control{{ $errors->has('user') ? ' is-invalid' : '' }}" name="user">
+                    <option value="0">Choose</option>
                     @foreach($sales as $user)
                         @if($user->id != 1)
                             <option @if($resource->user_id == $user->id) selected @endif value="{{ $user->id }}">{{ $user->name }}</option>

@@ -50,6 +50,7 @@
                         <tr>
                             <th>Id</th>
                             <th>Name</th>
+                            <th>Username</th>
                             <th>Roles</th>
                             <th>Created by</th>
                             <th>Updated by</th>
@@ -64,6 +65,7 @@
                             <tr>
                                 <td>{{ $resource->id }}</td>
                                 <td>{{ $resource->name }}</td>
+                                <td>{{ $resource->email }}</td>
                                 <td>
                                     @foreach($resource->roles as $role)
                                         <span class="label {{ $role->class }}">{{ $role->name }}</span>

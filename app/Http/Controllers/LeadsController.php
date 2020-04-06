@@ -95,7 +95,43 @@ class LeadsController extends Controller
 
         $data['resources'] = $data['resources']->paginate(50);
 
-        return view('leads.index', $data);
+        if($request->ajax()){
+            $data['view'] = view('leads.index-table', $data)->render();
+            return response($data);
+        }else{
+            return view('leads.index', $data)->render();
+        }
+    }
+
+    public function search(Request $request)
+    {
+        $data['sales'] = User::all();
+
+        $data['resources'] = new Lead();
+
+        if($request->has('company_name')){$data['resources'] = $data['resources']->where('company_name', $request->company_name);}
+        if($request->has('null_company_name')){$data['resources'] = $data['resources']->orWhere('company_name', '');}
+        if($request->has('owner') && $request->owner != ''){$data['resources'] = $data['resources']->where('owner', $request->owner );}
+        if($request->has('sub_type') && $request->sub_type != ''){$data['resources'] = $data['resources']->where('sub_type', $request->sub_type );}
+        if($request->has('contact_engineer') && $request->contact_engineer != ''){$data['resources'] = $data['resources']->where('contact_engineer', $request->contact_engineer );}
+        if($request->has('title') && $request->title != ''){$data['resources'] = $data['resources']->where('title', $request->title );}
+        if($request->has('class') && $request->class != ''){$data['resources'] = $data['resources']->where('class', $request->class );}
+        if($request->has('mobile_1') && $request->mobile_1 != ''){$data['resources'] = $data['resources']->where('mobile_1', $request->mobile_1 );}
+        if($request->has('mobile_2') && $request->mobile_2 != ''){$data['resources'] = $data['resources']->where('mobile_2', $request->mobile_2 );}
+        if($request->has('email') && $request->email != ''){$data['resources'] = $data['resources']->where('email', $request->email );}
+        if($request->has('address') && $request->address != ''){$data['resources'] = $data['resources']->where('address', $request->address );}
+        if($request->has('tel') && $request->tel != ''){$data['resources'] = $data['resources']->where('tel', $request->tel );}
+        if($request->has('sales1') && $request->sales1 != ''){$data['resources'] = $data['resources']->where('created_by', $request->sales1 );}
+        if($request->has('sales2') && $request->sales2 != ''){$data['resources'] = $data['resources']->where('user_id', $request->sales2 );}
+
+        if($request->has('date_from') && $request->date_from != ''){$data['resources'] = $data['resources']->whereBetween('created_at', [$request->date_from, $request->date_to]);}
+
+        $data['resources'] = $data['resources']->where('status', 2); // Done
+
+        $data['resources'] = $data['resources']->paginate(50);
+
+        $data['view'] = view('leads.index-table', $data)->render();
+        return response($data);
     }
 
     /**
@@ -238,6 +274,19 @@ class LeadsController extends Controller
             return back()->withErrors($validator)->withInput();
         }
 
+        // Check if duplicated
+        $dup = Lead::where(function($query) use ($request){
+            if($request->mobile_1 != ''){
+                $query->where('mobile_1', $request->mobile_1);
+                $query->orWhere('mobile_2', $request->mobile_1);
+            }
+            if($request->mobile_2 != ''){
+                $query->orWhere('mobile_1', $request->mobile_2);
+                $query->orWhere('mobile_2', $request->mobile_2);
+            }
+            $query->orWhere('email', $request->email);
+        })->first();
+
         // Do Code
         $updatedResource = Lead::edit([
             'company_name' => ($request->has('company_name'))? $request->company_name : '',
@@ -252,8 +301,9 @@ class LeadsController extends Controller
             'address' => ($request->has('address'))? $request->address : '',
             'tel' => ($request->has('tel'))? $request->tel : '',
             'notes' => ($request->has('notes'))? $request->notes : '',
-            'user_id' => ($request->has('user'))? $request->user : auth()->user()->id,
+            'user_id' => ($request->has('user') && $request->user != 0)? $request->user : null,
             'status' => ($request->has('status'))? $request->status : $resource->status,
+            'duplicated_with' => ($dup)? $dup->id : null,
             'updated_by' => auth()->user()->id
         ], $resource->id);
 

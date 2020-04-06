@@ -16,8 +16,12 @@ Route::group(['prefix'=>'dashboard', 'middleware' => 'auth'],function (){
     Route::resource('roles', 'RolesController');
     Route::resource('users', 'UsersController');
     Route::get('leads/{status?}', 'LeadsController@index')->name('leads.index');
+    Route::post('leads/search/all', 'LeadsController@search')->name('leads.search');
     Route::resource('leads', 'LeadsController')->except(['index']);
 
+    Route::get('manuals', 'ManualsController@index')->name('manuals.index');
+    Route::put('manuals/{id}', 'ManualsController@update')->name('manuals.update');
+    Route::get('manuals/show', 'ManualsController@show')->name('manuals.show');
 
     // User update data
     Route::get('user/profile', 'UsersController@showUserProfile')->name('users.showUserProfile');
