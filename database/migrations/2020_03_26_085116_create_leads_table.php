@@ -17,7 +17,7 @@ class CreateLeadsTable extends Migration
             $table->increments('id');
             $table->uuid('uuid');
             $table->string('company_name')->nullable();
-            $table->string('owner');
+            $table->string('owner')->nullable();
             $table->string('sub_type')->nullable();
             $table->string('contact_engineer')->nullable();
             $table->string('title')->nullable();
@@ -28,11 +28,11 @@ class CreateLeadsTable extends Migration
             $table->string('address')->nullable();
             $table->string('tel')->nullable();
             $table->string('notes')->nullable();
-            $table->integer('user_id')->nullable();
+            $table->integer('user_id')->nullable(); // Sales 2
             $table->integer('transfer_to')->nullable();
             $table->integer('status')->nullable(); // 1,2,3
             $table->integer('duplicated_with')->nullable();
-            $table->integer('created_by')->nullable();
+            $table->integer('created_by')->nullable(); // Sales 1
             $table->integer('updated_by')->nullable();
             $table->timestamps();
         });

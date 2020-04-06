@@ -59,7 +59,7 @@
                 </div>
 
 
-                <table data-page-length='50' id="datatable-history-buttons" class="table table-striped table-bordered table-sm table-responsive" cellspacing="0" width="100%">
+                <table data-page-length='50' id="datatable-history-buttons" class="nowrap table table-striped table-bordered table-sm table-responsive" cellspacing="0" width="100%">
                     <thead>
                     <tr>
                         <th>Edit</th>
@@ -95,6 +95,42 @@
                         <th>Rmv</th>
                     </tr>
                     </thead>
+
+                    <tfoot>
+                    <tr>
+                        <th>Edit</th>
+                        <th><input type="checkbox" id="checkAllLeads"></th>
+                        <th>ID</th>
+                        <th>Company name</th>
+                        <th>Type</th>
+                        <th>Sub type</th>
+                        <th>Contact Name</th>
+                        <th>Title</th>
+                        @if(\App\User::hasAuthority('show_classes.leads'))
+                            <th>Class</th>
+                            <th>Sales 1</th>
+                            <th>Sales 2</th>
+                        @endif
+                        <th>Mobile 1</th>
+                        <th>Mobile 2</th>
+                        <th>Email</th>
+                        <th>Address</th>
+                        <th>Tel</th>
+                        <th>Notes</th>
+
+
+                        <th>Status</th>
+                        <th>Duplicated with</th>
+                        @if(\App\User::hasAuthority('show_sales_2.leads'))
+
+                        @endif
+                        <th>Transfer to</th>
+                        <th>Updated by</th>
+                        <th>Created at</th>
+                        <th>Updated at</th>
+                        <th>Rmv</th>
+                    </tr>
+                    </tfoot>
 
                     <tbody>
                     @foreach($resources as $resource)

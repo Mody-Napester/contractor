@@ -49,7 +49,6 @@
         @endif
 
         @yield('post_css')
-
     </head>
 
     <body class="fixed-left">
@@ -210,8 +209,10 @@
 {{--        <script src="{{ url('assets/pages/jquery.form-advanced.init.js') }}"></script>--}}
 
         <!-- Required datatable js -->
+        {{--<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>--}}
         <script src="{{ url('assets/plugins/datatables/jquery.dataTables.min.js') }}"></script>
         <script src="{{ url('assets/plugins/datatables/dataTables.bootstrap4.min.js') }}"></script>
+
         <!-- Buttons examples -->
         <script src="{{ url('assets/plugins/datatables/dataTables.buttons.min.js') }}"></script>
         <script src="{{ url('assets/plugins/datatables/buttons.bootstrap4.min.js') }}"></script>
@@ -227,6 +228,8 @@
         <!-- Responsive examples -->
         <script src="{{ url('assets/plugins/datatables/dataTables.responsive.min.js') }}"></script>
         <script src="{{ url('assets/plugins/datatables/responsive.bootstrap4.min.js') }}"></script>
+
+        <script src="https://cdn.datatables.net/fixedheader/3.1.6/js/dataTables.fixedHeader.min.js"></script>
 
         <!-- Selection table -->
         <script src="{{ url('assets/plugins/datatables/dataTables.select.min.js') }}"></script>

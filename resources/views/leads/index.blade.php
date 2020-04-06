@@ -158,8 +158,8 @@
                             </div>
 
 
-                            <table data-page-length='50' id="datatable-history-buttons" class="table table-striped table-bordered table-sm table-responsive" cellspacing="0" width="100%">
-                                <thead>
+                            <table data-page-length='50' id="datatable-history-buttons" class="display nowrap table table-striped table-bordered table-sm table-responsive" cellspacing="0" width="100%">
+                                <thead class="">
                                 <tr>
                                     <th>Edit</th>
                                     <th><input type="checkbox" id="checkAllLeads"></th>
@@ -194,6 +194,42 @@
                                     <th>Rmv</th>
                                 </tr>
                                 </thead>
+
+                                <tfoot>
+                                <tr>
+                                    <th>Edit</th>
+                                    <th><input type="checkbox" id="checkAllLeads"></th>
+                                    <th>ID</th>
+                                    <th>Company name</th>
+                                    <th>Type</th>
+                                    <th>Sub type</th>
+                                    <th>Contact Name</th>
+                                    <th>Title</th>
+                                    @if(\App\User::hasAuthority('show_classes.leads'))
+                                        <th>Class</th>
+                                        <th>Sales 1</th>
+                                        <th>Sales 2</th>
+                                    @endif
+                                    <th>Mobile 1</th>
+                                    <th>Mobile 2</th>
+                                    <th>Email</th>
+                                    <th>Address</th>
+                                    <th>Tel</th>
+                                    <th>Notes</th>
+
+
+                                    <th>Status</th>
+                                    <th>Duplicated with</th>
+                                    @if(\App\User::hasAuthority('show_sales_2.leads'))
+
+                                    @endif
+                                    <th>Transfer to</th>
+                                    <th>Updated by</th>
+                                    <th>Created at</th>
+                                    <th>Updated at</th>
+                                    <th>Rmv</th>
+                                </tr>
+                                </tfoot>
 
                                 <tbody>
                                 @foreach($resources as $resource)
@@ -309,7 +345,6 @@
         @if(\App\User::hasAuthority('list.leads'))
         var tableDTUsers = $('#datatable-history-buttons').DataTable({
             lengthChange: false,
-            fixedHeader: true,
             paging: false,
             buttons: [
                 {
@@ -344,13 +379,17 @@
 
         $(document).ready(function(){
             // Select All
-            $("#checkAllLeads").click(function(){
+            $(document).on('click', "#checkAllLeads",function(){
                 $('input:checkbox').not(this).prop('checked', this.checked);
             });
         });
 
         $(document).on('blur change', '.life-search-input', function () {
             addLoader();
+
+            $(this).parents('.col-md-4').css({
+                backgroundColor : '#cccccc',
+            });
 
             var lifeSearchForm = $("#life-search-form")[0];
             var fd = new FormData(lifeSearchForm);
@@ -367,7 +406,6 @@
                     $('#life-search-tbody').html(data.view);
                     var tableDTUsers = $('#datatable-history-buttons').DataTable({
                         lengthChange: false,
-                        fixedHeader: true,
                         paging: false,
                         buttons: [
                             {
@@ -428,7 +466,58 @@
 
                 }
             });
-        });
 
+            var lifeSearchForm = $("#life-search-form")[0];
+            var fd = new FormData(lifeSearchForm);
+
+            $.ajax({
+                url: "{{ route('leads.index') }}",
+                type: "GET",
+                data: {},
+                cache: false,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    $('#life-search-tbody').html(data.view);
+                    var tableDTUsers = $('#datatable-history-buttons').DataTable({
+                        lengthChange: false,
+                        paging: false,
+                        buttons: [
+                            {
+                                extend: 'copyHtml5',
+                                exportOptions: {
+
+                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]
+                                }
+                            },
+                            {
+                                extend: 'excelHtml5',
+                                exportOptions: {
+                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]
+                                }
+                            },
+                            {
+                                extend: 'pdfHtml5',
+                                exportOptions: {
+                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]
+                                }
+                            },
+                            {
+                                extend: 'print',
+                                exportOptions: {
+                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]
+                                }
+                            }
+                        ],
+                    });
+                    tableDTUsers.buttons().container().appendTo('#datatable-history-buttons_wrapper .col-md-6:eq(0)');
+                    console.log(data.view);
+                    removeLoarder();
+                },
+                error: function (e) {
+
+                }
+            });
+        });
     </script>
 @endsection

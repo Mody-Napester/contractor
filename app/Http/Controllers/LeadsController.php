@@ -36,14 +36,24 @@ class LeadsController extends Controller
     // Import Leads
     public function import(Request $request)
     {
-        Excel::import(new LeadsImport(), $request->file('selected_file'));
+        if($request->hasFile('selected_file')){
+            Excel::import(new LeadsImport(), $request->file('selected_file'));
 
-        // Return
-        $data['message'] = [
-            'msg_status' => 1,
-            'type' => 'success',
-            'text' => 'Uploaded Successfully',
-        ];
+            // Return
+            $data['message'] = [
+                'msg_status' => 1,
+                'type' => 'success',
+                'text' => 'Uploaded Successfully',
+            ];
+        }else{
+            // Return
+            $data['message'] = [
+                'msg_status' => 1,
+                'type' => 'danger',
+                'text' => 'Please select a file',
+            ];
+        }
+
         return back()->with('message', $data['message']);
     }
 
@@ -99,7 +109,7 @@ class LeadsController extends Controller
             $data['view'] = view('leads.index-table', $data)->render();
             return response($data);
         }else{
-            return view('leads.index', $data)->render();
+            return view('leads.index', $data);
         }
     }
 
@@ -117,7 +127,7 @@ class LeadsController extends Controller
 
         if($request->has('company_name') && $request->company_name != '' && $request->company_name != null){$data['resources'] = $data['resources']->where('company_name', $request->company_name);}
         if($request->has('null_company_name')){$data['resources'] = $data['resources']->orWhere('company_name', '');}
-        if($request->has('null_email')){$data['resources'] = $data['resources']->orWhere('email', '');}
+        if($request->has('null_email')){$data['resources'] = $data['resources']->where('email', '');}
         if($request->has('owner') && $request->owner != ''){$data['resources'] = $data['resources']->where('owner', $request->owner );}
         if($request->has('sub_type') && $request->sub_type != ''){$data['resources'] = $data['resources']->where('sub_type', $request->sub_type );}
         if($request->has('contact_engineer') && $request->contact_engineer != '' && $request->contact_engineer != null){$data['resources'] = $data['resources']->where('contact_engineer', $request->contact_engineer );}
@@ -394,6 +404,7 @@ class LeadsController extends Controller
 
                 Lead::edit([
                     'class' => ($request->has('mass_class'))? $request->mass_class : $c_lead->class,
+                    'created_by' => ($request->has('mass_user'))? $request->mass_user : $c_lead->transfer_to,
                     'transfer_to' => ($request->has('mass_user'))? $request->mass_user : $c_lead->transfer_to,
                     'updated_by' => auth()->user()->id
                 ], $lead);
