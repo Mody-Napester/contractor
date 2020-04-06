@@ -105,15 +105,21 @@ class LeadsController extends Controller
 
     public function search(Request $request)
     {
+        foreach ($request->all() as $key => $value){
+            if(is_null($value)){
+                unset($request->all()[$key]);
+            }
+        }
+//        dd($request->all());
         $data['sales'] = User::all();
 
         $data['resources'] = new Lead();
 
-        if($request->has('company_name')){$data['resources'] = $data['resources']->where('company_name', $request->company_name);}
+        if($request->has('company_name') && $request->company_name != '' && $request->company_name != null){$data['resources'] = $data['resources']->where('company_name', $request->company_name);}
         if($request->has('null_company_name')){$data['resources'] = $data['resources']->orWhere('company_name', '');}
         if($request->has('owner') && $request->owner != ''){$data['resources'] = $data['resources']->where('owner', $request->owner );}
         if($request->has('sub_type') && $request->sub_type != ''){$data['resources'] = $data['resources']->where('sub_type', $request->sub_type );}
-        if($request->has('contact_engineer') && $request->contact_engineer != ''){$data['resources'] = $data['resources']->where('contact_engineer', $request->contact_engineer );}
+        if($request->has('contact_engineer') && $request->contact_engineer != '' && $request->contact_engineer != null){$data['resources'] = $data['resources']->where('contact_engineer', $request->contact_engineer );}
         if($request->has('title') && $request->title != ''){$data['resources'] = $data['resources']->where('title', $request->title );}
         if($request->has('class') && $request->class != ''){$data['resources'] = $data['resources']->where('class', $request->class );}
         if($request->has('mobile_1') && $request->mobile_1 != ''){$data['resources'] = $data['resources']->where('mobile_1', $request->mobile_1 );}
@@ -124,7 +130,7 @@ class LeadsController extends Controller
         if($request->has('sales1') && $request->sales1 != ''){$data['resources'] = $data['resources']->where('created_by', $request->sales1 );}
         if($request->has('sales2') && $request->sales2 != ''){$data['resources'] = $data['resources']->where('user_id', $request->sales2 );}
 
-        if($request->has('date_from') && $request->date_from != ''){$data['resources'] = $data['resources']->whereBetween('created_at', [$request->date_from, $request->date_to]);}
+        if($request->has('date_from') && $request->date_from != '' && $request->date_from != null){$data['resources'] = $data['resources']->whereBetween('created_at', [$request->date_from, $request->date_to]);}
 
         $data['resources'] = $data['resources']->where('status', 2); // Done
 
