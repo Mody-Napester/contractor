@@ -10,6 +10,14 @@
         </div>
         <div class="col-md-4">
             <div class="form-group">
+                <label class="" for="null_email">
+                    Null Email
+                </label>
+                <input id="null_email" type="checkbox" class="form-control life-search-input" name="null_email" value="1">
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
                 <label class="" for="company_name">Company name</label>
                 <input id="company_name" type="text" autocomplete="off" class="form-control life-search-input" name="company_name" value="{{ request('company_name') }}">
             </div>
@@ -168,4 +176,12 @@
             {{--</button>--}}
         {{--</div>--}}
     {{--</div>--}}
+
+    <div class="form-group m-b-0">
+        <div>
+            <button id="resetSearch" class="btn btn-warning waves-effect waves-light">
+                Reset
+            </button>
+        </div>
+    </div>
 </form>

@@ -117,6 +117,7 @@ class LeadsController extends Controller
 
         if($request->has('company_name') && $request->company_name != '' && $request->company_name != null){$data['resources'] = $data['resources']->where('company_name', $request->company_name);}
         if($request->has('null_company_name')){$data['resources'] = $data['resources']->orWhere('company_name', '');}
+        if($request->has('null_email')){$data['resources'] = $data['resources']->orWhere('email', '');}
         if($request->has('owner') && $request->owner != ''){$data['resources'] = $data['resources']->where('owner', $request->owner );}
         if($request->has('sub_type') && $request->sub_type != ''){$data['resources'] = $data['resources']->where('sub_type', $request->sub_type );}
         if($request->has('contact_engineer') && $request->contact_engineer != '' && $request->contact_engineer != null){$data['resources'] = $data['resources']->where('contact_engineer', $request->contact_engineer );}
@@ -433,6 +434,17 @@ class LeadsController extends Controller
         ];
 
         return back()->with('message', $data['message']);
+
+    }
+
+    /**
+     * Get Search.
+     */
+    public function getSearch()
+    {
+        $data['sales'] = User::all();
+        $data['view'] = view('leads.search', $data)->render();
+        return response($data);
 
     }
 }

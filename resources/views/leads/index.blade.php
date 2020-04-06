@@ -7,13 +7,13 @@
     <!-- Page-Title -->
     <div class="row">
         <div class="col-sm-12">
-            {{--@if(\App\User::hasAuthority('search.leads'))--}}
-            {{--<div class="btn-group pull-right m-t-15">--}}
-                {{--<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#myTabContent" aria-expanded="false" aria-controls="myTabContent">--}}
-                    {{--Open Create or filter <i class="fa fa-fw fa-arrow-down"></i>--}}
-                {{--</button>--}}
-            {{--</div>--}}
-            {{--@endif--}}
+            @if(\App\User::hasAuthority('search.leads'))
+            <div class="btn-group pull-right m-t-15">
+                <a class="btn btn-primary" href="#goToSearch">
+                    Go To Filter <i class="fa fa-fw fa-arrow-down"></i>
+                </a>
+            </div>
+            @endif
 
             <h4 class="page-title">Contacts</h4>
             <ol class="breadcrumb">
@@ -271,7 +271,7 @@
 
 
     @if(\App\User::hasAuthority('search.leads'))
-        <div class="row">
+        <div class="row" id="goToSearch">
             <div class="col-lg-12">
                 <ul class="nav nav-tabs" id="myTab2" role="tablist">
                     @if(\App\User::hasAuthority('search.leads'))
@@ -407,5 +407,28 @@
             });
 
         });
+
+        $(document).on('click', "#resetSearch",function(e){
+            e.preventDefault();
+            addLoader();
+
+            $.ajax({
+                url: "{{ route('leads.search.get') }}",
+                type: "GET",
+                data: {},
+                cache: false,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    $('#home2').html(data.view);
+                    $('.select2').select2();
+                    removeLoarder();
+                },
+                error: function (e) {
+
+                }
+            });
+        });
+
     </script>
 @endsection

@@ -19,6 +19,8 @@ Route::group(['prefix'=>'dashboard', 'middleware' => 'auth'],function (){
     Route::post('leads/search/all', 'LeadsController@search')->name('leads.search');
     Route::resource('leads', 'LeadsController')->except(['index']);
 
+    Route::get('leads/search/get', 'LeadsController@getSearch')->name('leads.search.get');
+
     Route::get('manuals', 'ManualsController@index')->name('manuals.index');
     Route::put('manuals/{id}', 'ManualsController@update')->name('manuals.update');
     Route::get('manuals/show', 'ManualsController@show')->name('manuals.show');
