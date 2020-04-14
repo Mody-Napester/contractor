@@ -162,7 +162,7 @@
                                 <td>
                                     {{ $resource->class }}
                                 </td>
-                                <td>{{ $resource->createdBy->name }}</td>
+                                <td>{{ ($resource->createdBy)? $resource->createdBy->name : '' }}</td>
                             @endif
                             @if(\App\User::hasAuthority('show_sales_2.leads'))
                                 <td>
