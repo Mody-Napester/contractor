@@ -96,6 +96,15 @@ class Lead extends Model
     }
 
     /**
+     *  Relationship with company
+     */
+    public function company()
+    {
+        return $this->belongsTo('App\Company', 'company_name');
+
+    }
+
+    /**
      *  Relationship with roles
      */
     public function roles()

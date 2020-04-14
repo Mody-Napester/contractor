@@ -15,6 +15,7 @@ Route::group(['prefix'=>'dashboard', 'middleware' => 'auth'],function (){
     Route::resource('permissions', 'PermissionsController');
     Route::resource('roles', 'RolesController');
     Route::resource('users', 'UsersController');
+    Route::resource('companies', 'CompaniesController');
     Route::get('leads/{status?}', 'LeadsController@index')->name('leads.index');
     Route::post('leads/search/all', 'LeadsController@search')->name('leads.search');
     Route::resource('leads', 'LeadsController')->except(['index']);

@@ -2,10 +2,28 @@
     @csrf
 
     <div class="row">
+        {{--<div class="col-md-4">--}}
+            {{--<div class="form-group">--}}
+                {{--<label class="" for="company_name">Company name</label>--}}
+                {{--<input id="company_name" type="text" autocomplete="off" class="form-control{{ $errors->has('company_name') ? ' is-invalid' : '' }}" name="company_name" value="{{ old('company_name') }}">--}}
+
+                {{--@if ($errors->has('company_name'))--}}
+                    {{--<span class="invalid-feedback" role="alert">--}}
+                        {{--<strong>{{ $errors->first('company_name') }}</strong>--}}
+                    {{--</span>--}}
+                {{--@endif--}}
+            {{--</div>--}}
+        {{--</div>--}}
         <div class="col-md-4">
             <div class="form-group">
                 <label class="" for="company_name">Company name</label>
-                <input id="company_name" type="text" autocomplete="off" class="form-control{{ $errors->has('company_name') ? ' is-invalid' : '' }}" name="company_name" value="{{ old('company_name') }}">
+
+                <select id="company_name" class="select2 form-control{{ $errors->has('company_name') ? ' is-invalid' : '' }}" name="company_name">
+                    <option disabled selected>Choose</option>
+                    @foreach($companies as $company)
+                        <option value="{{ $company->id }}">{{ $company->name }}</option>
+                    @endforeach
+                </select>
 
                 @if ($errors->has('company_name'))
                     <span class="invalid-feedback" role="alert">

@@ -152,7 +152,8 @@
                             </td>
                             <td>{{ $resource->id }}</td>
 
-                            <td>{{ $resource->company_name }}</td>
+{{--                                        <td>{{ ($resource->company)? $resource->company->name : $resource->company_name }}</td>--}}
+                            <td>{{ ($resource->company)? $resource->company->name : '' }}</td>
                             <td>{{ $resource->owner }}</td>
                             <td>{{ $resource->sub_type }}</td>
                             <td>{{ $resource->contact_engineer }}</td>

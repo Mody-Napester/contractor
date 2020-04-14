@@ -16,10 +16,21 @@
                 <input id="null_email" type="checkbox" class="form-control life-search-input" name="null_email" value="1">
             </div>
         </div>
+        {{--<div class="col-md-4">--}}
+            {{--<div class="form-group">--}}
+                {{--<label class="" for="company_name">Company name</label>--}}
+                {{--<input id="company_name" type="text" autocomplete="off" class="form-control life-search-input" name="company_name" value="{{ request('company_name') }}">--}}
+            {{--</div>--}}
+        {{--</div>--}}
         <div class="col-md-4">
             <div class="form-group">
                 <label class="" for="company_name">Company name</label>
-                <input id="company_name" type="text" autocomplete="off" class="form-control life-search-input" name="company_name" value="{{ request('company_name') }}">
+                <select id="company_name" class="life-search-input select2 form-control{{ $errors->has('company_name') ? ' is-invalid' : '' }}" name="company_name">
+                    <option disabled selected>Choose</option>
+                    @foreach($companies as $company)
+                        <option value="{{ $company->id }}">{{ $company->name }}</option>
+                    @endforeach
+                </select>
             </div>
         </div>
         <div class="col-md-4">

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Company;
 use App\Enums\LeadsStatuses;
 use App\Exports\LeadsExport;
 use App\Imports\LeadsImport;
@@ -69,6 +70,7 @@ class LeadsController extends Controller
         }
 
         $data['sales'] = User::all();
+        $data['companies'] = Company::where('is_active', 1)->get();
 
         $data['resources'] = new Lead();
 
@@ -83,25 +85,27 @@ class LeadsController extends Controller
                     $data['resources'] = $data['resources']->where('status', 1)->orWhere('status', 3); // New & Duplicates
                 }
             }
-        }else{
-            if($request->has('company_name') && $request->company_name != ''){$data['resources'] = $data['resources']->where('company_name', $request->company_name );}
-            if($request->has('owner') && $request->owner != ''){$data['resources'] = $data['resources']->where('owner', $request->owner );}
-            if($request->has('sub_type') && $request->sub_type != ''){$data['resources'] = $data['resources']->where('sub_type', $request->sub_type );}
-            if($request->has('contact_engineer') && $request->contact_engineer != ''){$data['resources'] = $data['resources']->where('contact_engineer', $request->contact_engineer );}
-            if($request->has('title') && $request->title != ''){$data['resources'] = $data['resources']->where('title', $request->title );}
-            if($request->has('class') && $request->class != ''){$data['resources'] = $data['resources']->where('class', $request->class );}
-            if($request->has('mobile_1') && $request->mobile_1 != ''){$data['resources'] = $data['resources']->where('mobile_1', $request->mobile_1 );}
-            if($request->has('mobile_2') && $request->mobile_2 != ''){$data['resources'] = $data['resources']->where('mobile_2', $request->mobile_2 );}
-            if($request->has('email') && $request->email != ''){$data['resources'] = $data['resources']->where('email', $request->email );}
-            if($request->has('address') && $request->address != ''){$data['resources'] = $data['resources']->where('address', $request->address );}
-            if($request->has('tel') && $request->tel != ''){$data['resources'] = $data['resources']->where('tel', $request->tel );}
-            if($request->has('sales1') && $request->sales1 != ''){$data['resources'] = $data['resources']->where('created_by', $request->sales1 );}
-            if($request->has('sales2') && $request->sales2 != ''){$data['resources'] = $data['resources']->where('user_id', $request->sales2 );}
-
-            if($request->has('date_from') && $request->date_from != ''){$data['resources'] = $data['resources']->whereBetween('created_at', [$request->date_from, $request->date_to]);}
-
-            $data['resources'] = $data['resources']->where('status', 2); // Done
         }
+
+//        else{
+//            if($request->has('company_name') && $request->company_name != ''){$data['resources'] = $data['resources']->where('company_name', $request->company_name );}
+//            if($request->has('owner') && $request->owner != ''){$data['resources'] = $data['resources']->where('owner', $request->owner );}
+//            if($request->has('sub_type') && $request->sub_type != ''){$data['resources'] = $data['resources']->where('sub_type', $request->sub_type );}
+//            if($request->has('contact_engineer') && $request->contact_engineer != ''){$data['resources'] = $data['resources']->where('contact_engineer', $request->contact_engineer );}
+//            if($request->has('title') && $request->title != ''){$data['resources'] = $data['resources']->where('title', $request->title );}
+//            if($request->has('class') && $request->class != ''){$data['resources'] = $data['resources']->where('class', $request->class );}
+//            if($request->has('mobile_1') && $request->mobile_1 != ''){$data['resources'] = $data['resources']->where('mobile_1', $request->mobile_1 );}
+//            if($request->has('mobile_2') && $request->mobile_2 != ''){$data['resources'] = $data['resources']->where('mobile_2', $request->mobile_2 );}
+//            if($request->has('email') && $request->email != ''){$data['resources'] = $data['resources']->where('email', $request->email );}
+//            if($request->has('address') && $request->address != ''){$data['resources'] = $data['resources']->where('address', $request->address );}
+//            if($request->has('tel') && $request->tel != ''){$data['resources'] = $data['resources']->where('tel', $request->tel );}
+//            if($request->has('sales1') && $request->sales1 != ''){$data['resources'] = $data['resources']->where('created_by', $request->sales1 );}
+//            if($request->has('sales2') && $request->sales2 != ''){$data['resources'] = $data['resources']->where('user_id', $request->sales2 );}
+//
+//            if($request->has('date_from') && $request->date_from != ''){$data['resources'] = $data['resources']->whereBetween('created_at', [$request->date_from, $request->date_to]);}
+//
+//            $data['resources'] = $data['resources']->where('status', 2); // Done
+//        }
 
         $data['resources'] = $data['resources']->paginate(50);
 
@@ -122,26 +126,32 @@ class LeadsController extends Controller
         }
 //        dd($request->all());
         $data['sales'] = User::all();
+        $data['companies'] = Company::all();
 
         $data['resources'] = new Lead();
 
-        if($request->has('company_name') && $request->company_name != '' && $request->company_name != null){$data['resources'] = $data['resources']->where('company_name', $request->company_name);}
-        if($request->has('null_company_name')){$data['resources'] = $data['resources']->orWhere('company_name', '')->orWhere('company_name', null);}
-        if($request->has('null_email')){$data['resources'] = $data['resources']->where('email', null)->orWhere('email', '');}
-        if($request->has('owner') && $request->owner != ''){$data['resources'] = $data['resources']->where('owner', $request->owner );}
-        if($request->has('sub_type') && $request->sub_type != ''){$data['resources'] = $data['resources']->where('sub_type', $request->sub_type );}
-        if($request->has('contact_engineer') && $request->contact_engineer != '' && $request->contact_engineer != null){$data['resources'] = $data['resources']->where('contact_engineer', $request->contact_engineer );}
-        if($request->has('title') && $request->title != ''){$data['resources'] = $data['resources']->where('title', $request->title );}
-        if($request->has('class') && $request->class != ''){$data['resources'] = $data['resources']->where('class', $request->class );}
-        if($request->has('sales1') && $request->sales1 != ''){$data['resources'] = $data['resources']->where('created_by', $request->sales1 );}
-        if($request->has('sales2') && $request->sales2 != ''){$data['resources'] = $data['resources']->where('user_id', $request->sales2 );}
+        $data['resources'] = $data['resources']->where(function ($q) use ($request, $data){
+            if($request->has('company_name') && $request->company_name != '' && $request->company_name != null){$q->where('company_name', $request->company_name);}
+            if($request->has('null_company_name')){$q->orWhere('company_name', '')->orWhere('company_name', null);}
+            if($request->has('null_email')){$q->where('email', null)->orWhere('email', '');}
+            if($request->has('owner') && $request->owner != ''){$q->where('owner', $request->owner );}
+            if($request->has('sub_type') && $request->sub_type != ''){$q->where('sub_type', $request->sub_type );}
+            if($request->has('contact_engineer') && $request->contact_engineer != '' && $request->contact_engineer != null){$q->where('contact_engineer', $request->contact_engineer );}
+            if($request->has('title') && $request->title != ''){$q->where('title', $request->title );}
+            if($request->has('class') && $request->class != ''){$q->where('class', $request->class );}
+            if($request->has('sales1') && $request->sales1 != ''){$q->where('created_by', $request->sales1 );}
+            if($request->has('sales2') && $request->sales2 != ''){$q->where('user_id', $request->sales2 );}
+            if($request->has('date_from') && $request->date_from != '' && $request->date_from != null){$q->whereBetween('created_at', [$request->date_from, $request->date_to]);}
+
+        });
+
+
 //        if($request->has('email') && $request->email != ''){$data['resources'] = $data['resources']->where('email', $request->email );}
 //        if($request->has('mobile_1') && $request->mobile_1 != ''){$data['resources'] = $data['resources']->where('mobile_1', $request->mobile_1 );}
 //        if($request->has('mobile_2') && $request->mobile_2 != ''){$data['resources'] = $data['resources']->where('mobile_2', $request->mobile_2 );}
 //        if($request->has('address') && $request->address != ''){$data['resources'] = $data['resources']->where('address', $request->address );}
 //        if($request->has('tel') && $request->tel != ''){$data['resources'] = $data['resources']->where('tel', $request->tel );}
 
-        if($request->has('date_from') && $request->date_from != '' && $request->date_from != null){$data['resources'] = $data['resources']->whereBetween('created_at', [$request->date_from, $request->date_to]);}
 
         $data['resources'] = $data['resources']->where('status', 2); // Done
 
@@ -256,6 +266,7 @@ class LeadsController extends Controller
 
         $data['resource'] = Lead::getBy('uuid', $uuid);
         $data['sales'] = User::all();
+        $data['companies'] = Company::all();
 
         return response([
             'title'=> "Update resource " . $data['resource']->name,
@@ -454,6 +465,7 @@ class LeadsController extends Controller
     public function getSearch()
     {
         $data['sales'] = User::all();
+        $data['companies'] = Company::all();
         $data['view'] = view('leads.search', $data)->render();
         return response($data);
 
